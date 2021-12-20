@@ -1,0 +1,33 @@
+<html lang="en">
+
+<%- include("head.ejs") %>
+
+<body>
+  <%- include("nav.ejs") %>
+
+  <div class="details content">
+    <h2><%= blog.title %></h2>
+    <div class="content">
+      <p><%= blog.body %></p>
+    </div>
+    <a class="delete" data-doc="<%= blog._id %>">delete</a>
+  </div>
+
+  <script>
+    const trashcan = document.querySelector('a.delete');
+    trashcan.addEventListener('click', (e) => {
+      const endpoint = `/blogs/${trashcan.dataset.doc}`;
+      fetch(endpoint, {
+        method: 'DELETE',
+      }) 
+      .then(response => response.json())
+      .then(data => window.location.href = data.redirect)
+      .catch(err => console.log(err)); //redirect is the property of json
+    }); //response.jason returns anothers promise where it passes the jason object into an actual js object
+    
+  </script>
+  <%- include("footer.ejs") %>
+
+  
+</body>
+</html>
